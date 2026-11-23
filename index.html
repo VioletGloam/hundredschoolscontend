@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1200, initial-scale=1.0">
+    <title>百家争鸣 · 春秋战国策略卡牌</title>
+    <!-- 外部样式表：全站统一引入 css/main.css -->
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+    <!-- ========== 舞台：PC 端固定 1200px × 768px ========== -->
+    <div class="stage stage-home">
+
+        <!-- 背景音乐：打开首页自动播放，点击右上角按钮可开/关 -->
+        <audio id="bgm" src="res/bgm.mp3" loop preload="auto"></audio>
+
+        <!-- 左上角品牌标识 -->
+        <header class="brand">
+            <span class="brand-text">春秋战国<br>策略卡牌</span>
+        </header>
+
+        <!-- 右上角：音乐播放/暂停圆形按钮（绝对定位） -->
+        <button class="music-btn is-playing" id="musicBtn" type="button" title="背景音乐开/关">
+            <svg class="ico-pause" viewBox="0 0 24 24">
+                <rect x="6" y="4" width="4.4" height="16" rx="1.2"></rect>
+                <rect x="13.6" y="4" width="4.4" height="16" rx="1.2"></rect>
+            </svg>
+            <svg class="ico-play" viewBox="0 0 24 24">
+                <path d="M7 4.6c0-.9 1-1.5 1.8-1L18.4 11c.7.5.7 1.5 0 2L8.8 20.4c-.8.5-1.8-.1-1.8-1V4.6z"></path>
+            </svg>
+        </button>
+        <!-- 自动播放被浏览器拦截时的提示 -->
+        <span class="music-hint" id="musicHint">点击开启音乐</span>
+
+        <!-- ========== 居中主体：标题 + 按钮 ========== -->
+        <main class="home-hero">
+            <p class="hero-eyebrow">春秋战国 · 论道天下</p>
+
+            <h1 class="hero-title">百家争鸣</h1>
+
+            <div class="hero-divider divider">
+                <i></i>
+                <span>◆</span>
+                <i></i>
+            </div>
+
+            <nav class="btn-row">
+                <button type="button" class="btn btn-primary" id="btnStart">开始游戏</button>
+                <a class="btn btn-ghost" href="index-schools.html">了解学派</a>
+            </nav>
+        </main>
+
+        <!-- ========== 底部：五大学派一览 ========== -->
+        <footer class="home-foot">
+            <ul class="school-strip">
+                <li><i>儒</i>儒家</li>
+                <li><i>道</i>道家</li>
+                <li><i>墨</i>墨家</li>
+                <li><i>法</i>法家</li>
+                <li><i>兵</i>兵家</li>
+            </ul>
+        </footer>
+
+    </div>
+
+    <script>
+        /* ---------------- 背景音乐：自动播放 + 按钮开/关 ---------------- */
+        var bgm = document.getElementById('bgm');
+        var musicBtn = document.getElementById('musicBtn');
+        var musicHint = document.getElementById('musicHint');
+        var blocked = false;          /* 是否被浏览器的自动播放策略拦截 */
+
+        bgm.volume = 0.25;            /* 背景音乐音量 */
+
+        function setMusicState(playing) {
+            musicBtn.classList.toggle('is-playing', playing);
+            musicBtn.classList.toggle('is-paused', !playing);
+            /* 仅在「自动播放被浏览器拦截」时提示，用户手动暂停时不打扰 */
+            musicHint.classList.toggle('is-show', !playing && blocked);
+        }
+
+        function playBgm() {
+            var p = bgm.play();
+            if (p && typeof p.then === 'function') {
+                p.then(function () {
+                    blocked = false;
+                    setMusicState(true);
+                }).catch(function () {
+                    /* 浏览器自动播放策略拦截时，提示用户点击按钮开启 */
+                    blocked = true;
+                    setMusicState(false);
+                });
+            } else {
+                blocked = false;
+                setMusicState(true);
+            }
+        }
+
+        /* 打开首页即自动播放 */
+        playBgm();
+
+        musicBtn.addEventListener('click', function () {
+            blocked = false;          /* 用户主动操作，不再触发兜底自动播放 */
+            if (bgm.paused) {
+                playBgm();
+                setMusicState(true);
+            } else {
+                bgm.pause();
+                setMusicState(false);
+            }
+        });
+
+        /* 若自动播放被拦截，用户首次点击页面任意处时恢复播放 */
+        document.addEventListener('click', function () {
+            if (blocked) {
+                blocked = false;
+                playBgm();
+            }
+        });
+
+        /* ---------------- “开始游戏”进入对局 ---------------- */
+        document.getElementById('btnStart').addEventListener('click', function () {
+            window.location.href = 'index-game.html';
+        });
+    </script>
+
+</body>
+</html>

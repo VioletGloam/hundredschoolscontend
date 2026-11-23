@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1200, initial-scale=1.0">
+    <title>学派总览 · 百家争鸣</title>
+    <!-- 外部样式表：全站统一引入 css/main.css -->
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+    <!-- ========== 舞台：PC 端固定 1200px × 768px ========== -->
+    <div class="stage stage-schools">
+
+        <audio id="bgm" src="res/bgm.mp3" loop preload="auto"></audio>
+
+        <!-- 顶部栏：返回首页 + 页面标题 -->
+        <header class="topbar">
+            <a class="back-link" href="index.html">← 返回首页</a>
+            <h2 class="topbar-title">百家争鸣 · 学派总览</h2>
+            <span class="topbar-sub">THE HUNDRED SCHOOLS OF THOUGHT</span>
+        </header>
+
+        <!-- 右上角音乐按钮 -->
+        <button class="music-btn is-playing" id="musicBtn" type="button" title="背景音乐开/关">
+            <svg class="ico-pause" viewBox="0 0 24 24">
+                <rect x="6" y="4" width="4.4" height="16" rx="1.2"></rect>
+                <rect x="13.6" y="4" width="4.4" height="16" rx="1.2"></rect>
+            </svg>
+            <svg class="ico-play" viewBox="0 0 24 24">
+                <path d="M7 4.6c0-.9 1-1.5 1.8-1L18.4 11c.7.5.7 1.5 0 2L8.8 20.4c-.8.5-1.8-.1-1.8-1V4.6z"></path>
+            </svg>
+        </button>
+
+        <!-- ========== 主体：左侧选择列表 + 右侧学派介绍 ========== -->
+        <div class="school-board">
+
+            <!-- 左侧：五大学派纵向选择列表 -->
+            <aside class="school-list">
+                <h3 class="list-title">五大学派</h3>
+                <button class="school-item is-active" type="button" data-key="rujia">
+                    <i>儒</i><span>儒家<em>CONFUCIANISM</em></span>
+                </button>
+                <button class="school-item" type="button" data-key="daojia">
+                    <i>道</i><span>道家<em>DAOISM</em></span>
+                </button>
+                <button class="school-item" type="button" data-key="mojia">
+                    <i>墨</i><span>墨家<em>MOHISM</em></span>
+                </button>
+                <button class="school-item" type="button" data-key="fajia">
+                    <i>法</i><span>法家<em>LEGALISM</em></span>
+                </button>
+                <button class="school-item" type="button" data-key="bingjia">
+                    <i>兵</i><span>兵家<em>MILITARY ART</em></span>
+                </button>
+            </aside>
+
+            <!-- 右侧：学派介绍（发展史 / 主张 / 代表人物 / 代表著作） -->
+            <section class="school-detail">
+                <div class="detail-head">
+                    <h3 class="detail-name" id="dName">儒家</h3>
+                    <span class="detail-en" id="dEn">CONFUCIANISM</span>
+                    <p class="detail-quote" id="dQuote">仁者爱人，克己复礼</p>
+                </div>
+
+                <div class="detail-body">
+                    <figure class="detail-figure">
+                        <img id="dImg" src="res/rujia.png" alt="儒家插图">
+                        <figcaption class="figure-cap" id="dCap">孔子设教杏坛，弟子三千——儒家之源</figcaption>
+                    </figure>
+
+                    <div class="detail-info">
+                        <div class="info-block">
+                            <h4>发展史</h4>
+                            <p id="dHistory"></p>
+                        </div>
+                        <div class="info-block">
+                            <h4>核心主张</h4>
+                            <p id="dIdea"></p>
+                        </div>
+                        <div class="info-block">
+                            <h4>代表人物</h4>
+                            <p class="people" id="dPeople"></p>
+                        </div>
+                        <div class="info-block">
+                            <h4>代表著作</h4>
+                            <p id="dBooks"></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script>
+        /* ================= 学派资料 ================= */
+        var SCHOOLS = {
+            rujia: {
+                name: '儒家',
+                en: 'CONFUCIANISM',
+                quote: '仁者爱人，克己复礼',
+                img: 'res/rujia.png',
+                cap: '孔子设教杏坛，弟子三千——儒家之源',
+                history: '春秋末年孔子创立，以“仁”为核心、以“礼”为规范。战国时期孟子倡“性善”与“仁政”，荀子主“性恶”而重礼法，儒学由此分宗。秦汉之际董仲舒上书“罢黜百家，独尊儒术”，儒学成为此后两千余年的正统思想；宋明理学又为其注入新的哲学形态。',
+                idea: '以“仁”为最高道德，主张“己所不欲，勿施于人”；政治上强调德治礼治与“民贵君轻”，反对苛政与垄断；教育上主张“有教无类、因材施教”，提倡“学而不厌，诲人不倦”。',
+                people: '孔子（至圣先师）　孟子（亚圣）　荀子　董仲舒　朱熹',
+                books: '《论语》《孟子》《荀子》《礼记》《春秋繁露》'
+            },
+            daojia: {
+                name: '道家',
+                en: 'DAOISM',
+                quote: '道法自然，无为而治',
+                img: 'res/daojia.png',
+                cap: '老子骑青牛西出函谷——道家之源',
+                history: '春秋末年老子著《道德经》，开创以“道”为本体的思想。战国时期庄子发展为“庄学”，以寓言讲齐物、逍遥之辨；稷下黄老之学兴起，道家一度成为治国主流。魏晋玄学以老庄解《易》《论语》，道家与玄学合流；隋唐以后，其思想融入道教与山水文艺。',
+                idea: '主张“道法自然”“无为而治”，统治者顺应自然之化、少加干预；人生观上追求柔弱不争、上善若水、心斋坐忘；反对繁文缛节与劳形伤神，主张寡欲清静以养身心。',
+                people: '老子（太上老君）　庄子　列子　文子　葛洪',
+                books: '《道德经》《庄子》《列子》《黄帝内经》'
+            },
+            mojia: {
+                name: '墨家',
+                en: 'MOHISM',
+                quote: '兼爱非攻，尚贤节用',
+                img: 'res/mojia.png',
+                cap: '墨子率众守城，捍卫宋邑——兼爱之实践',
+                history: '春秋末年墨子创立，以小生产者与手工业者的立场立说，提出“兼爱”，并组织弟子从事守城御敌的实际行动，一度与儒家并称显学。秦汉以后墨家中衰，几近失传；清末民初西学东渐，墨学因重科学、重逻辑、重公利而再度受到重视。',
+                idea: '主张“兼爱”“非攻”，反对攻伐与不义战争；政治上“尚贤”“尚同”，用人唯贤、不问出身；经济上“节用”“节葬”，反对厚葬与奢侈浪费；学术上重名实、辩说与逻辑，并最早系统研究几何、力学、光学与机械。',
+                people: '墨子（墨翟）　禽滑厘　尹文　墨辩',
+                books: '《墨子》《墨经》《墨辩》'
+            },
+            fajia: {
+                name: '法家',
+                en: 'LEGALISM',
+                quote: '以法治国，术势兼用',
+                img: 'res/fajia.png',
+                cap: '商鞅变法图景——法家之集大成',
+                history: '春秋时期郑国子产铸刑书、齐国管仲变法理财，法家思想发端。战国时李悝著《法经》，商鞅入秦变法徙木立信，使秦国富强；荀子倡性恶，韩非集法术势之大成，提出“当今之世，必行法术之治”。秦统一后以法家治国，汉代“外儒内法”，遂成历代王朝的统治术。',
+                idea: '主张“法治”而非“人治”，以公布成文、赏罚严明取代贵族特权；强调君主集权与官僚体制，以“法、术、势”三者互相配合驾驭群臣；经济上重农抑商、奖励耕战，追求富国强兵与统一。',
+                people: '管仲　子产　李悝　商鞅　申不害　韩非',
+                books: '《法经》《商君书》《韩非子》《管子》'
+            },
+            bingjia: {
+                name: '兵家',
+                en: 'MILITARY ART',
+                quote: '知己知彼，百战不殆',
+                img: 'res/bingjia.png',
+                cap: '孙武帐中推演战阵——兵家之源',
+                history: '春秋末年孙武著《孙子兵法》，为兵学之祖。战国军事家辈出，吴起讲“与民分利”、司马穰苴著兵法、孙膑创“围魏救赵”、尉缭倡“合纵连横”，兵学蔚为大观。汉代以后《孙子》被尊为“武经七书”之首，历代名将奉为圭臬，并传入日本、朝鲜及欧亚诸国。',
+                idea: '以“道、天、地、将、法”五事七计为建军之纲；主张“知彼知己”“百战不殆”，重视情报、态势与时机；战略上贵在“全胜”与“不战而屈人之兵”，反对穷兵黩武；战术上讲“奇正相生”“避实而击虚”。',
+                people: '孙武　吴起　司马穰苴　孙膑　尉缭　李靖',
+                books: '《孙子兵法》《吴子》《司马法》《尉缭子》《六韬》《三略》'
+            }
+        };
+
+        /* ================= 渲染与交互 ================= */
+        var items = document.querySelectorAll('.school-item');
+        var dName = document.getElementById('dName');
+        var dEn = document.getElementById('dEn');
+        var dQuote = document.getElementById('dQuote');
+        var dImg = document.getElementById('dImg');
+        var dCap = document.getElementById('dCap');
+        var dHistory = document.getElementById('dHistory');
+        var dIdea = document.getElementById('dIdea');
+        var dPeople = document.getElementById('dPeople');
+        var dBooks = document.getElementById('dBooks');
+
+        function renderSchool(key) {
+            var s = SCHOOLS[key];
+            if (!s) return;
+            dName.textContent = s.name;
+            dEn.textContent = s.en;
+            dQuote.textContent = s.quote;
+            dImg.src = s.img;
+            dImg.alt = s.name + '插图';
+            dCap.textContent = s.cap;
+            dHistory.textContent = s.history;
+            dIdea.textContent = s.idea;
+            dPeople.textContent = s.people;
+            dBooks.textContent = s.books;
+        }
+
+        for (var i = 0; i < items.length; i++) {
+            items[i].addEventListener('click', function () {
+                for (var j = 0; j < items.length; j++) {
+                    items[j].classList.remove('is-active');
+                }
+                this.classList.add('is-active');
+                renderSchool(this.getAttribute('data-key'));
+            });
+        }
+
+        renderSchool('rujia');
+
+        /* ---------------- 背景音乐：自动播放 + 按钮开/关 ---------------- */
+        var bgm = document.getElementById('bgm');
+        var musicBtn = document.getElementById('musicBtn');
+        var blocked = false;
+
+        bgm.volume = 0.25;            /* 背景音乐音量 */
+
+        function setMusicState(playing) {
+            musicBtn.classList.toggle('is-playing', playing);
+            musicBtn.classList.toggle('is-paused', !playing);
+        }
+
+        function playBgm() {
+            var p = bgm.play();
+            if (p && typeof p.then === 'function') {
+                p.then(function () {
+                    blocked = false;
+                    setMusicState(true);
+                }).catch(function () {
+                    blocked = true;
+                    setMusicState(false);
+                });
+            } else {
+                blocked = false;
+                setMusicState(true);
+            }
+        }
+
+        playBgm();
+
+        musicBtn.addEventListener('click', function () {
+            blocked = false;
+            if (bgm.paused) {
+                playBgm();
+                setMusicState(true);
+            } else {
+                bgm.pause();
+                setMusicState(false);
+            }
+        });
+
+        document.addEventListener('click', function () {
+            if (blocked) {
+                blocked = false;
+                playBgm();
+            }
+        });
+    </script>
+
+</body>
+</html>

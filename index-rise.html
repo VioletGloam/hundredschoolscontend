@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1200, initial-scale=1.0">
+    <title>学派兴起 · 百家争鸣</title>
+    <!-- 对外隐藏页专用样式：rise.css（当前为转发 main.css 的占位文件，见文件内说明） -->
+    <link rel="stylesheet" href="css/rise.css">
+</head>
+<body>
+
+    <!-- ========== 舞台：PC 端固定 1200px × 768px ========== -->
+    <div class="stage stage-home">
+
+        <!-- 背景音乐：本页保持静音，故不加载 bgm.mp3（如需恢复，取消下面一行注释即可） -->
+        <!-- <audio id="bgm" src="res/bgm.mp3" loop preload="auto"></audio> -->
+
+        <!-- 左上角品牌标识 -->
+        <header class="brand">
+            <span class="brand-text">春秋战国<br>策略卡牌</span>
+        </header>
+
+        <!-- 右上角：音乐按钮在本页不显示 -->
+        <!--
+        <button class="music-btn is-playing" id="musicBtn" type="button" title="背景音乐开/关">
+            <svg class="ico-pause" viewBox="0 0 24 24">
+                <rect x="6" y="4" width="4.4" height="16" rx="1.2"></rect>
+                <rect x="13.6" y="4" width="4.4" height="16" rx="1.2"></rect>
+            </svg>
+            <svg class="ico-play" viewBox="0 0 24 24">
+                <path d="M7 4.6c0-.9 1-1.5 1.8-1L18.4 11c.7.5.7 1.5 0 2L8.8 20.4c-.8.5-1.8-.1-1.8-1V4.6z"></path>
+            </svg>
+        </button>
+        -->
+        <!-- 自动播放被浏览器拦截时的提示 -->
+        <!--<span class="music-hint" id="musicHint">点击开启音乐</span>-->
+
+        <!-- ========== 居中主体：标题 + 按钮 ========== -->
+        <main class="home-hero">
+            <p class="hero-eyebrow">春秋战国 · 论道天下</p>
+
+            <h1 class="hero-title">学派兴起</h1>
+
+            <div class="hero-divider divider">
+                <i></i>
+                <span>◆</span>
+                <i></i>
+            </div>
+
+            <nav class="btn-row">
+                <button type="button" class="btn btn-primary" id="btnStart">返回首页</button>
+                <a class="btn btn-ghost" href="index-schools.html">了解学派</a>
+            </nav>
+        </main>
+
+        <!-- ========== 底部：五大学派一览 ========== -->
+        <footer class="home-foot">
+            <ul class="school-strip">
+                <li><i>儒</i>儒家</li>
+                <li><i>道</i>道家</li>
+                <li><i>墨</i>墨家</li>
+                <li><i>法</i>法家</li>
+                <li><i>兵</i>兵家</li>
+            </ul>
+        </footer>
+
+        <!-- ========== 「斗转星移」提示弹层 ========== -->
+        <div class="tip-modal" id="tipModal">
+            <div class="tip-card">
+                <h3>斗转星移</h3>
+                <p>
+                    当下发生的一切都可能迎来转机。<br>
+                    准备好迎接另一种可能的结局了吗？
+                </p>
+                <!--
+                    原文件中此处外链线上站点：
+                    https://hundredthoughts-homepage.netlify.app/
+                    整合为本地项目后改为返回本地首页，离线也能走通整条动线。
+                -->
+                <a href="index.html" class="tip-close" id="tipClose">我准备好了</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        /* ---------------- 「返回首页」提示弹层 ---------------- */
+        var tipModal = document.getElementById('tipModal');
+        document.getElementById('btnStart').addEventListener('click', function () {
+            tipModal.classList.add('is-open');
+        });
+        document.getElementById('tipClose').addEventListener('click', function () {
+            tipModal.classList.remove('is-open');
+        });
+    </script>
+
+</body>
+</html>
